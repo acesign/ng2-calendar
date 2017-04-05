@@ -1,0 +1,62 @@
+<div *ngIf="!_showChangeMonth">
+  <div class="calendar-header">
+    <div class="col-xs-3">
+      <button class="btn btn-default btn-xs" (click)="goToToday()" *ngIf="!dateBelowMinimum(_today)">{{_text.today}}</button>
+    </div>
+    <div class="col-xs-5" style="text-align:center;">
+      <a (click)="prevItem('M')" class="pull-left calendar-arrow"><i class="fa fa-chevron-left"></i></a>
+      <strong (click)="toggleMonths()" style="cursor: pointer;">{{selectedMonth}}</strong>
+      <a (click)="nextItem('M')" class="pull-right calendar-arrow"><i class="fa fa-chevron-right"></i></a>
+    </div>
+    <div class="col-xs-4" style="text-align:center;">
+      <a (click)="prevItem('Y')" class="pull-left calendar-arrow"><i class="fa fa-chevron-left"></i></a>
+      <span>{{selectedYear}}</span>
+      <a (click)="nextItem('Y')" class="pull-right calendar-arrow"><i class="fa fa-chevron-right"></i></a>
+    </div>
+  </div>
+  <div class="calendar-dates">
+    <table class="table">
+      <thead>
+        <th *ngFor="let dayTitle of daysOfWeek">{{dayTitle}}</th>
+      </thead>
+      <tr *ngFor="let week of days" class="calendar-week">
+        <td *ngFor="let day of week" class="calendar-day" [ngClass]="{'muted': dateFromOtherMonth(day), 'selected': isDaySelected(day), 'disabled': dateBelowMinimum(day)}" (click)="selectDay(day)">
+          {{day | date:'d'}}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="calendar-time col-xs-12" *ngIf="_options.showTime">
+    <div class="form-group">
+      <label> {{_text.time}}: </label>
+      <div class="col-xs-12">
+        <div class="calendar-time-input" [ngClass]="{'has-error': minHour > selectedHour}">
+          <input type="number" class="form-control" value="{{selectedHour}}" max="23" min="{{minHour}}" [formControl]="hourControl">
+        </div>
+        <span style="width:2%;margin-left:1px;">:</span>
+        <div class="calendar-time-input" [ngClass]="{'has-error': minMinute > selectedMinute}">
+          <input type="number" class="form-control" value="{{selectedMinute}}" max="59" min="{{minMinute}}" [formControl]="minuteControl">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12" *ngIf="!_options.saveOnDateSelect">
+    <div class="pull-right" style="display: inline-block">
+      <button class="btn btn-danger btn-sm" (click)="cancelCalendar()">{{_text.cancel}}</button>
+      <button class="btn btn-success btn-sm" (click)="applyCalendar()">{{_text.apply}}</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="_showChangeMonth">
+  <div class="calendar-header">
+    <button class="btn btn-default btn-xs" (click)="toggleMonths()"><i class="fa fa-chevron-left"></i> {{_text.back}}</button>
+    <div style="text-align: center; width: 70%; display: inline-block;">
+      <b>{{_text.months}}</b>
+    </div>
+  </div>
+  <div class="calendar-months col-xs-12">
+    <ul class="calendar-month-selector">
+      <li *ngFor="let month of _monthsList" (click)="selectMonth(month.value)" [ngClass]="{'selected': isMonthSelected(month.value)}"><div class="calendar-month-text">{{month.name}}</div></li>
+    </ul>
+  </div>
+</div>
