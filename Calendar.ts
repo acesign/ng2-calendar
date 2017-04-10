@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, SimpleChange } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import * as moment from '../../../../node_modules/moment';
+import * as moment from 'moment';
 
 interface ICalendarMonth {
   value: number,
