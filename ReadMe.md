@@ -2,7 +2,7 @@
 Date/Time picker for angular 2
 Requires momentjs and bootstrap.
 ### Setup
-Add CalendarInputDirective and CalendarDirective to declarations
+Add CalendarModule.forRoot() in imports.
 ### Basic
 ```sh
 <input [calendar-popup]="DEFAULT_DATE" [value]="Date/Time" (onDateChange)="changeDate($event)"/>
