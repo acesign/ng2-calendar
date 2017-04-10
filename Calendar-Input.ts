@@ -1,7 +1,7 @@
 import { Component, ElementRef, ComponentRef, Input, Output, OnChanges, ComponentFactoryResolver, EventEmitter, ApplicationRef, Injector, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CalendarDirective } from './Calendar';
-import * as moment from '../../../../node_modules/moment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'calendar-selector',
