@@ -1,6 +1,10 @@
 import { Directive, ElementRef, ComponentRef, SimpleChanges, Input, Output, OnChanges, OnInit, ComponentFactoryResolver, EventEmitter, ApplicationRef, Injector, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
+<<<<<<< HEAD:calendar.directive.ts
 import { CalendarComponent } from './calendar.component';
+=======
+import { CalendarDirective } from './Calendar';
+>>>>>>> ba5c0874151b5a371dfe5d7f4572f51f55954cfb:Calendar-Input.ts
 import * as moment from 'moment';
 
 @Directive({
