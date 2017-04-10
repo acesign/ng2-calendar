@@ -1,27 +1,28 @@
-import { Component, ElementRef, ComponentRef, Input, Output, OnChanges, ComponentFactoryResolver, EventEmitter, ApplicationRef, Injector, HostListener } from '@angular/core';
+import { Directive, ElementRef, ComponentRef, SimpleChanges, Input, Output, OnChanges, OnInit, ComponentFactoryResolver, EventEmitter, ApplicationRef, Injector, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CalendarDirective } from './Calendar';
-import * as moment from '../../../../node_modules/moment';
+import { CalendarComponent } from './calendar.component';
+import * as moment from 'moment';
 
-@Component({
-  selector: 'calendar-selector',
-  template: require('./Calendar-Input.html'),
-  entryComponents: [CalendarDirective]
+@Directive({
+  selector: '[calendar-popup]'
 })
-
-export class CalendarInputDirective implements OnChanges {
-  @Input('value') currentDate: any;
-  @Input() options: any;
-  @Input() minimumDate: any;
+export class CalendarDirective implements OnChanges, OnInit {
+  @Input('calendar-popup') currentDate: any;
+  @Input('calendar-options') options: any;
+  @Input('calendar-minimum-date') minimumDate: any;
   @Input('formControl') formControl: FormControl;
   @Output('onDateChange') dateChange: EventEmitter<any> = new EventEmitter<any>();
   private _changeDetection: EventEmitter<any> = new EventEmitter<any>();
   private _position: any = {};
   private showingCalendar: boolean = false;
-  private compRef: ComponentRef<CalendarDirective>;
+  private compRef: ComponentRef<CalendarComponent>;
   constructor(private el: ElementRef, private cfr: ComponentFactoryResolver, private _appRef: ApplicationRef, private injector: Injector) {}
 
-  ngOnChanges(change) {
+  ngOnInit() {
+    this.options = this.options ? this.options : {};
+  }
+
+  ngOnChanges(change: any) {
     if (this.compRef) {
       this._changeDetection.emit(change);
     }
@@ -37,17 +38,17 @@ export class CalendarInputDirective implements OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  handleResizeWindow(event) {
+  handleResizeWindow(event: any) {
     if (this.showingCalendar) {
       this._setPosition();
     }
   }
 
   @HostListener('document:click', ['$event'])
-  handleClick(event) {
+  handleClick(event: any) {
     if (this.showingCalendar) {
       let detected: boolean = false;
-      event.path.forEach((value) => {
+      event.path.forEach((value: any) => {
         if (value.classList) {
           if (value.classList.contains('calendar') || value === this.el.nativeElement) {
             detected = true;
@@ -61,17 +62,24 @@ export class CalendarInputDirective implements OnChanges {
     }
   }
 
+  @HostListener('click', ['$event'])
+  handleElementClick(event: any) {
+    if (!this.showingCalendar) {
+      this.showCalendar();
+    }
+  }
+
   showCalendar() {
     if (!this.showingCalendar) {
-      let componentFactory = this.cfr.resolveComponentFactory(CalendarDirective);
-      this.compRef = componentFactory.create(this.injector);
+      let componentFactory = this.cfr.resolveComponentFactory(CalendarComponent);
+      this.compRef = componentFactory.create(this.injector) as any;
       // init Calendar
       this._setPosition();
       this.compRef.instance.selectedDate = this._formatDate(this.currentDate);
       this.compRef.instance.minimumDate = this.minimumDate;
       this.compRef.instance.changedDetection = this._changeDetection;
       this.compRef.instance.options = this.options;
-      this.compRef.instance.save.subscribe((value) => {
+      this.compRef.instance.save.subscribe((value: any) => {
         this.saveCalendar(value);
       });
       this.compRef.instance.close.subscribe(() => this.destroyCalendar());
