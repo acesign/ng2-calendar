@@ -5,7 +5,7 @@ Requires momentjs and bootstrap.
 Add CalendarInputDirective and CalendarDirective to declarations
 ### Basic
 ```sh
-<[calendar-popup]="DEFAULT_DATE" [value]="Date/Time" (onDateChange)="changeDate($event)"/>
+<input [calendar-popup]="DEFAULT_DATE" [value]="Date/Time" (onDateChange)="changeDate($event)"/>
 ```
 ### Use FormControl
 ```sh
