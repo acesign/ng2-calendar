@@ -5,11 +5,11 @@ Requires momentjs and bootstrap.
 Add CalendarInputDirective and CalendarDirective to declarations
 ### Basic
 ```sh
-<calendar-selector [value]="Date/Time" (onDateChange)="changeDate($event)"></calendar-selector>
+<[calendar-popup]="DEFAULT_DATE" [value]="Date/Time" (onDateChange)="changeDate($event)"/>
 ```
 ### Use FormControl
 ```sh
-<calendar-selector [value]="Date/Time" [formControl]="" ngDefaultControl></calendar-selector>
+<input [calendar-popup]="DEFAULT_DATE" [value]="Date/Time" [formControl]="" ngDefaultControl/>
 ```
 ## Options
 | Option | Value | Default |
@@ -19,5 +19,5 @@ Add CalendarInputDirective and CalendarDirective to declarations
 | showTime | boolean | true |
 | saveOnDateSelect | boolean | false |
 ```sh
-<calendar-selector [options]="{format: 'MM/DD/YYYY HH:mm'}"></calendar-selector>
+<input [calendar-popup]="DEFAULT_DATE" [calendar-options]="{format: 'MM/DD/YYYY HH:mm'}"/>
 ```
